@@ -103,7 +103,6 @@
             this.Controls.Add(this.lblPalmPos);
             this.Name = "frmMain";
             this.Text = "Finger\'s cloner";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmMain_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
 

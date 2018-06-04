@@ -91,10 +91,5 @@ namespace fingers_cloner
             // Draw ellipse to screen.
             e.Graphics.DrawEllipse(blackPen, rect);
         }
-
-        private void frmMain_Paint(object sender, PaintEventArgs e)
-        {
-            DrawEllipseRectangle(e, 50, 50);
-        }
     }
 }
