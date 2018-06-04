@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace hand_tracker.Properties
+namespace fingers_cloner.Properties
 {
 
 
