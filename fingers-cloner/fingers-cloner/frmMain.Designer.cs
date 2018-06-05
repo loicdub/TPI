@@ -28,79 +28,87 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblPalmPos = new System.Windows.Forms.Label();
-            this.lblThumbPos = new System.Windows.Forms.Label();
-            this.lblIndexPos = new System.Windows.Forms.Label();
-            this.lblMiddlePos = new System.Windows.Forms.Label();
-            this.lblRingPos = new System.Windows.Forms.Label();
-            this.lblPinkyPos = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            this.lblUserHand = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pnlUserHand = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnNewModel = new System.Windows.Forms.Button();
+            this.cbxModele = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // lblPalmPos
+            // lblUserHand
             // 
-            this.lblPalmPos.AutoSize = true;
-            this.lblPalmPos.Location = new System.Drawing.Point(12, 9);
-            this.lblPalmPos.Name = "lblPalmPos";
-            this.lblPalmPos.Size = new System.Drawing.Size(30, 13);
-            this.lblPalmPos.TabIndex = 0;
-            this.lblPalmPos.Text = "Palm";
+            this.lblUserHand.AutoSize = true;
+            this.lblUserHand.Location = new System.Drawing.Point(9, 9);
+            this.lblUserHand.Name = "lblUserHand";
+            this.lblUserHand.Size = new System.Drawing.Size(63, 13);
+            this.lblUserHand.TabIndex = 0;
+            this.lblUserHand.Text = "Votre main :";
             // 
-            // lblThumbPos
+            // label2
             // 
-            this.lblThumbPos.AutoSize = true;
-            this.lblThumbPos.Location = new System.Drawing.Point(12, 36);
-            this.lblThumbPos.Name = "lblThumbPos";
-            this.lblThumbPos.Size = new System.Drawing.Size(40, 13);
-            this.lblThumbPos.TabIndex = 1;
-            this.lblThumbPos.Text = "Thumb";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(415, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Main à recopier";
             // 
-            // lblIndexPos
+            // timer1
             // 
-            this.lblIndexPos.AutoSize = true;
-            this.lblIndexPos.Location = new System.Drawing.Point(12, 68);
-            this.lblIndexPos.Name = "lblIndexPos";
-            this.lblIndexPos.Size = new System.Drawing.Size(33, 13);
-            this.lblIndexPos.TabIndex = 2;
-            this.lblIndexPos.Text = "Index";
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // lblMiddlePos
+            // pnlUserHand
             // 
-            this.lblMiddlePos.AutoSize = true;
-            this.lblMiddlePos.Location = new System.Drawing.Point(12, 106);
-            this.lblMiddlePos.Name = "lblMiddlePos";
-            this.lblMiddlePos.Size = new System.Drawing.Size(38, 13);
-            this.lblMiddlePos.TabIndex = 3;
-            this.lblMiddlePos.Text = "Middle";
+            this.pnlUserHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlUserHand.Location = new System.Drawing.Point(12, 25);
+            this.pnlUserHand.Name = "pnlUserHand";
+            this.pnlUserHand.Size = new System.Drawing.Size(400, 400);
+            this.pnlUserHand.TabIndex = 6;
+            this.pnlUserHand.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlUserHand_Paint);
             // 
-            // lblRingPos
+            // panel2
             // 
-            this.lblRingPos.AutoSize = true;
-            this.lblRingPos.Location = new System.Drawing.Point(12, 151);
-            this.lblRingPos.Name = "lblRingPos";
-            this.lblRingPos.Size = new System.Drawing.Size(29, 13);
-            this.lblRingPos.TabIndex = 4;
-            this.lblRingPos.Text = "Ring";
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Location = new System.Drawing.Point(418, 25);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(400, 400);
+            this.panel2.TabIndex = 7;
             // 
-            // lblPinkyPos
+            // btnNewModel
             // 
-            this.lblPinkyPos.AutoSize = true;
-            this.lblPinkyPos.Location = new System.Drawing.Point(12, 197);
-            this.lblPinkyPos.Name = "lblPinkyPos";
-            this.lblPinkyPos.Size = new System.Drawing.Size(33, 13);
-            this.lblPinkyPos.TabIndex = 5;
-            this.lblPinkyPos.Text = "Pinky";
+            this.btnNewModel.Location = new System.Drawing.Point(12, 431);
+            this.btnNewModel.Name = "btnNewModel";
+            this.btnNewModel.Size = new System.Drawing.Size(200, 23);
+            this.btnNewModel.TabIndex = 8;
+            this.btnNewModel.Text = "Enregistrez un nouveau modèle";
+            this.btnNewModel.UseVisualStyleBackColor = true;
+            this.btnNewModel.Click += new System.EventHandler(this.btnNewModel_Click);
+            // 
+            // cbxModele
+            // 
+            this.cbxModele.FormattingEnabled = true;
+            this.cbxModele.Location = new System.Drawing.Point(618, 433);
+            this.cbxModele.Name = "cbxModele";
+            this.cbxModele.Size = new System.Drawing.Size(200, 21);
+            this.cbxModele.TabIndex = 9;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 487);
-            this.Controls.Add(this.lblPinkyPos);
-            this.Controls.Add(this.lblRingPos);
-            this.Controls.Add(this.lblMiddlePos);
-            this.Controls.Add(this.lblIndexPos);
-            this.Controls.Add(this.lblThumbPos);
-            this.Controls.Add(this.lblPalmPos);
+            this.ClientSize = new System.Drawing.Size(830, 466);
+            this.Controls.Add(this.cbxModele);
+            this.Controls.Add(this.btnNewModel);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlUserHand);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblUserHand);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "Finger\'s cloner";
             this.ResumeLayout(false);
@@ -109,13 +117,13 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblPalmPos;
-        private System.Windows.Forms.Label lblThumbPos;
-        private System.Windows.Forms.Label lblIndexPos;
-        private System.Windows.Forms.Label lblMiddlePos;
-        private System.Windows.Forms.Label lblRingPos;
-        private System.Windows.Forms.Label lblPinkyPos;
+        private System.Windows.Forms.Label lblUserHand;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Panel pnlUserHand;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnNewModel;
+        private System.Windows.Forms.ComboBox cbxModele;
     }
 }
 

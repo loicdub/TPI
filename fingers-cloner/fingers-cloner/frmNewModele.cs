@@ -14,7 +14,7 @@ using System.Xml;
 
 namespace fingers_cloner
 {
-    public partial class frmMain : Form
+    public partial class frmNewModele : Form
     {
         private Controller controller = new Controller();
 
@@ -29,7 +29,7 @@ namespace fingers_cloner
         public Vector palmNormPos;
         public Vector palmStabPos;
 
-        public frmMain()
+        public frmNewModele()
         {
             InitializeComponent();
             DoubleBuffered = true;
@@ -59,8 +59,8 @@ namespace fingers_cloner
 
                 palmPos = firstHand.PalmPosition;
                 palmNormPos = iBox.NormalizePoint(palmPos);
-                palmStabPos.x = (pnlUserHand.Width / 2) - CIRCLESIZE;
-                palmStabPos.y = ((pnlUserHand.Height / 4) * 3) - CIRCLESIZE;
+                palmStabPos.x = (pnlModele.Width / 2) - CIRCLESIZE;
+                palmStabPos.y = ((pnlModele.Height / 4) * 3) - CIRCLESIZE;
 
                 for (int i = 0; i < fingers.Count; i++)
                 {
@@ -84,6 +84,32 @@ namespace fingers_cloner
             fingerPalmPos = new Vector(fingerStabPosX, fingerStabPosY, 0);
 
             return fingerPalmPos;
+        }
+
+        private void tbxModeleName_TextChanged(object sender, EventArgs e)
+        {
+            if (tbxModeleName.Text.Length <= 0)
+            {
+                btnSave.Enabled = false;
+            }
+            else
+            {
+                btnSave.Enabled = true;
+            }
+        }
+
+        private void pnlModele_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                DrawEllipseRectangle(e, Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.y));
+                for (int i = 0; i < fingersPalmPos.Count; i++)
+                {
+                    DrawEllipseRectangle(e, Convert.ToInt32(fingersPalmPos[i].x), Convert.ToInt32(fingersPalmPos[i].y));
+                    DrawLinePoint(e, Convert.ToInt32(fingersPalmPos[i].x) + (CIRCLESIZE / 2), Convert.ToInt32(fingersPalmPos[i].y) + (CIRCLESIZE / 2));
+                }
+            }
+            catch (Exception){}
         }
 
         private void DrawEllipseRectangle(PaintEventArgs e, int x, int y)
@@ -113,32 +139,7 @@ namespace fingers_cloner
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pnlUserHand.Invalidate();
-        }
-
-        private void pnlUserHand_Paint(object sender, PaintEventArgs e)
-        {
-            try
-            {
-                lblUserHand.Text = "Votre main :";
-                DrawEllipseRectangle(e, Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.y));
-                for (int i = 0; i < fingersPalmPos.Count; i++)
-                {
-                    DrawEllipseRectangle(e, Convert.ToInt32(fingersPalmPos[i].x), Convert.ToInt32(fingersPalmPos[i].y));
-                    DrawLinePoint(e, Convert.ToInt32(fingersPalmPos[i].x) + (CIRCLESIZE / 2), Convert.ToInt32(fingersPalmPos[i].y) + (CIRCLESIZE / 2));
-                }
-            }
-            catch (Exception)
-            {
-                lblUserHand.Text = "Pas de main détectée !";
-            }
-        }
-
-        private void btnNewModel_Click(object sender, EventArgs e)
-        {
-            frmNewModele newModele = new frmNewModele();
-
-            newModele.ShowDialog();
+            pnlModele.Invalidate();
         }
     }
 }
