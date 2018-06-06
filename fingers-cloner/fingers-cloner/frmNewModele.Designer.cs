@@ -28,12 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pnlModele = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.tbxModeleName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // pnlModele
@@ -74,10 +72,6 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            // 
             // frmNewModele
             // 
             this.AcceptButton = this.btnSave;
@@ -104,6 +98,5 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbxModeleName;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Timer timer1;
     }
 }

@@ -34,6 +34,11 @@ namespace fingers_cloner
 
         // Stabilized palm position
         public Vector palmStabPos;
+
+        // deserialize saved positions
+        savedHand saveHand = new savedHand();
+        string fileSerial = "serialized-position.xml";
+
         #endregion
 
         public frmMain()
@@ -80,6 +85,16 @@ namespace fingers_cloner
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
+        }
+
+        private void cbxModele_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+            //paint.paintHand(e, saveHand);
         }
     }
 }

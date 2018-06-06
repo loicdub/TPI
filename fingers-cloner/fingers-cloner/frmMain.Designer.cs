@@ -83,6 +83,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(400, 400);
             this.panel2.TabIndex = 7;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // btnNewModel
             // 
@@ -102,6 +103,7 @@
             this.cbxModele.Name = "cbxModele";
             this.cbxModele.Size = new System.Drawing.Size(229, 21);
             this.cbxModele.TabIndex = 2;
+            this.cbxModele.SelectedIndexChanged += new System.EventHandler(this.cbxModele_SelectedIndexChanged);
             // 
             // label1
             // 

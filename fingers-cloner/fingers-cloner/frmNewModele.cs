@@ -85,10 +85,8 @@ namespace fingers_cloner
                 description = comment.Description;
                 savedHand currentPosition = new savedHand(leapController.FingersPalmPos, leapController.PalmStabPos, name, description);
 
-                XmlSerializer serialiseur = new XmlSerializer(typeof(savedHand));
-                StreamWriter fichier = new StreamWriter(fileSerial);
-                serialiseur.Serialize(fichier, currentPosition);
-                fichier.Close();
+                currentPosition.serialize(fileSerial, currentPosition);
+
                 this.Close();
             }
         }
