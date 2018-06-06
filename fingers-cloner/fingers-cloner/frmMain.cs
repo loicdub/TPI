@@ -38,7 +38,7 @@ namespace fingers_cloner
         // deserialize saved positions
         savedHand saveHand = new savedHand();
         string fileSerial = "serialized-position.xml";
-
+        List<savedHand> allPositions;
         #endregion
 
         public frmMain()
@@ -48,6 +48,7 @@ namespace fingers_cloner
             leapController = new LeapController(pnlUserHand.Width, pnlUserHand.Height);
             palmStabPos = new Vector((pnlUserHand.Width / 2), ((pnlUserHand.Height * 3) / 4), 0);
             paint = new Paint(palmStabPos);
+            updateCombobox();
         }
 
         // Refresh panel on each tick
@@ -79,6 +80,11 @@ namespace fingers_cloner
             frmNewModele newModele = new frmNewModele();
 
             newModele.ShowDialog();
+
+            if (newModele.DialogResult == DialogResult.OK)
+            {
+                updateCombobox();
+            }
         }
 
         // Choose the precision required to accept a position
@@ -89,12 +95,34 @@ namespace fingers_cloner
 
         private void cbxModele_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void pnlModelHand_Paint(object sender, PaintEventArgs e)
         {
-            //paint.paintHand(e, saveHand);
+            paint.paintHand(e, saveHand.Fingers);
+        }
+
+        private void updateCombobox()
+        {
+            cbxModele.Items.Clear();
+
+            allPositions = saveHand.deserialize(fileSerial);
+
+            for (int i = 0; i < allPositions.Count; i++)
+            {
+                cbxModele.Items.Add(allPositions[i].Name);
+            }
+
+            if (cbxModele.Items.Count >= 1)
+            {
+                cbxModele.SelectedIndex = 0;
+                cbxModele.Enabled = true;
+            }
+            else
+            {
+                cbxModele.Enabled = false;
+            }
         }
     }
 }

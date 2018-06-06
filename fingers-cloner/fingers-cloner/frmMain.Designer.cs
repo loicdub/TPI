@@ -34,7 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pnlUserHand = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlModelHand = new System.Windows.Forms.Panel();
             this.btnNewModel = new System.Windows.Forms.Button();
             this.cbxModele = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -76,14 +76,14 @@
             this.pnlUserHand.TabIndex = 6;
             this.pnlUserHand.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlUserHand_Paint);
             // 
-            // panel2
+            // pnlModelHand
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(418, 25);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(400, 400);
-            this.panel2.TabIndex = 7;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            this.pnlModelHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlModelHand.Location = new System.Drawing.Point(418, 25);
+            this.pnlModelHand.Name = "pnlModelHand";
+            this.pnlModelHand.Size = new System.Drawing.Size(400, 400);
+            this.pnlModelHand.TabIndex = 7;
+            this.pnlModelHand.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlModelHand_Paint);
             // 
             // btnNewModel
             // 
@@ -102,6 +102,7 @@
             this.cbxModele.Location = new System.Drawing.Point(180, 460);
             this.cbxModele.Name = "cbxModele";
             this.cbxModele.Size = new System.Drawing.Size(229, 21);
+            this.cbxModele.Sorted = true;
             this.cbxModele.TabIndex = 2;
             this.cbxModele.SelectedIndexChanged += new System.EventHandler(this.cbxModele_SelectedIndexChanged);
             // 
@@ -157,7 +158,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.btnNewModel);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlModelHand);
             this.Controls.Add(this.pnlUserHand);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblUserHand);
@@ -175,7 +176,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel pnlUserHand;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlModelHand;
         private System.Windows.Forms.Button btnNewModel;
         private System.Windows.Forms.ComboBox cbxModele;
         private System.Windows.Forms.Label label1;
