@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * Author  : Dubas Loïc
+ * Class   : I.FA-P3B
+ * School  : CFPT-I
+ * Date    : June 2018
+ * Descr.  : Create a new modele, with a name and a description
+ * Version : 1.0 
+ * Ext. dll: LeapCSharp.NET4.5
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,85 +17,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-// ref to add
+// References to add
 using Leap;
 using System.Diagnostics;
 using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace fingers_cloner
 {
     public partial class frmNewModele : Form
     {
-        private Controller controller = new Controller();
+        #region initialization
+        // Initialize Leap Motion
+        LeapController leapController;
 
-        public const int CIRCLESIZE = 50;
-        public List<Finger> fingers;
+        // Initialize Paint class to draw circles and lines
+        Paint paint;
 
-        public List<Vector> fingersPos;
-        public List<Vector> fingersNormPos;
-        public List<Vector> fingersPalmPos;
-
-        public Vector palmPos;
-        public Vector palmNormPos;
+        // Stabilized palm position
         public Vector palmStabPos;
+
+        // name and description
+        string name;
+        string description;
+
+        // serialize file name
+        string fileSerial = "serialized-position.xml";
+        #endregion
 
         public frmNewModele()
         {
             InitializeComponent();
             DoubleBuffered = true;
-            controller.EventContext = WindowsFormsSynchronizationContext.Current;
-            controller.FrameReady += newFrameHandler;
+            leapController = new LeapController(pnlModele.Width, pnlModele.Height);
+            palmStabPos = new Vector((pnlModele.Width / 2), ((pnlModele.Height * 3) / 4), 0);
+            paint = new Paint(palmStabPos);
         }
 
-        /// <summary>
-        /// Refresh the fingers info on every frame of the Leap Motion
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
-        public void newFrameHandler(object sender, FrameEventArgs eventArgs)
-        {
-            Frame frame = eventArgs.frame;
-            InteractionBox iBox = frame.InteractionBox;
-
-            if (frame.Hands.Count > 0)
-            {
-                List<Hand> hands = frame.Hands;
-                Hand firstHand = hands[0];
-
-                fingers = firstHand.Fingers;
-                fingersPos = new List<Vector>();
-                fingersNormPos = new List<Vector>();
-                fingersPalmPos = new List<Vector>();
-
-                palmPos = firstHand.PalmPosition;
-                palmNormPos = iBox.NormalizePoint(palmPos);
-                palmStabPos.x = (pnlModele.Width / 2) - CIRCLESIZE;
-                palmStabPos.y = ((pnlModele.Height / 4) * 3) - CIRCLESIZE;
-
-                for (int i = 0; i < fingers.Count; i++)
-                {
-                    fingersPos.Add(fingers[i].StabilizedTipPosition);
-                    fingersNormPos.Add(iBox.NormalizePoint(fingersPos[i]));
-                    fingersPalmPos.Add(stabilizedToPalmPos(fingersPos[i]));
-                }
-            }
-        }
-
-        private Vector stabilizedToPalmPos(Vector stabilizedPos)
-        {
-            Vector fingerPalmPos;
-
-            float fingersPalmDiffX = stabilizedPos.x - palmPos.x;
-            float fingersPalmDiffY = stabilizedPos.y - palmPos.y;
-
-            float fingerStabPosX = palmStabPos.x - 2 * fingersPalmDiffX;
-            float fingerStabPosY = palmStabPos.y - 2 * fingersPalmDiffY;
-
-            fingerPalmPos = new Vector(fingerStabPosX, fingerStabPosY, 0);
-
-            return fingerPalmPos;
-        }
-
+        // enable save button if there is a name to it
         private void tbxModeleName_TextChanged(object sender, EventArgs e)
         {
             if (tbxModeleName.Text.Length <= 0)
@@ -98,48 +68,29 @@ namespace fingers_cloner
             }
         }
 
+        // draw hand if there is one
         private void pnlModele_Paint(object sender, PaintEventArgs e)
         {
-            try
+                paint.paintHand(e, leapController.FingersPalmPos);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            frmComment comment = new frmComment();
+            name = tbxModeleName.Text;
+            comment.ShowDialog();
+
+            if (comment.DialogResult == DialogResult.OK)
             {
-                DrawEllipseRectangle(e, Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.y));
-                for (int i = 0; i < fingersPalmPos.Count; i++)
-                {
-                    DrawEllipseRectangle(e, Convert.ToInt32(fingersPalmPos[i].x), Convert.ToInt32(fingersPalmPos[i].y));
-                    DrawLinePoint(e, Convert.ToInt32(fingersPalmPos[i].x) + (CIRCLESIZE / 2), Convert.ToInt32(fingersPalmPos[i].y) + (CIRCLESIZE / 2));
-                }
+                description = comment.Description;
+                savedHand currentPosition = new savedHand(leapController.FingersPalmPos, leapController.PalmStabPos, name, description);
+
+                XmlSerializer serialiseur = new XmlSerializer(typeof(savedHand));
+                StreamWriter fichier = new StreamWriter(fileSerial);
+                serialiseur.Serialize(fichier, currentPosition);
+                fichier.Close();
+                this.Close();
             }
-            catch (Exception){}
-        }
-
-        private void DrawEllipseRectangle(PaintEventArgs e, int x, int y)
-        {
-            // Create pen.
-            Pen blackPen = new Pen(Color.Black, 3);
-
-            // Create rectangle for ellipse.
-            Rectangle rect = new Rectangle(x, y, CIRCLESIZE, CIRCLESIZE);
-
-            // Draw ellipse to screen.
-            e.Graphics.DrawEllipse(blackPen, rect);
-        }
-
-        public void DrawLinePoint(PaintEventArgs e, int x, int y)
-        {
-            // Create pen.
-            Pen blackPen = new Pen(Color.Black, 3);
-
-            // Create points that define line.
-            Point point1 = new Point(Convert.ToInt32(palmStabPos.x) + (CIRCLESIZE / 2), Convert.ToInt32(palmStabPos.y) + (CIRCLESIZE / 2));
-            Point point2 = new Point(x, y);
-
-            // Draw line to screen.
-            e.Graphics.DrawLine(blackPen, point1, point2);
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            pnlModele.Invalidate();
         }
     }
 }

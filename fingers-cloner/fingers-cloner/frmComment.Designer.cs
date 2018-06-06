@@ -1,6 +1,6 @@
 ﻿namespace fingers_cloner
 {
-    partial class frmNewModele
+    partial class frmComment
     {
         /// <summary>
         /// Required designer variable.
@@ -28,71 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.pnlModele = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbxModeleName = new System.Windows.Forms.TextBox();
+            this.tbxDescription = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // pnlModele
-            // 
-            this.pnlModele.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlModele.Location = new System.Drawing.Point(12, 12);
-            this.pnlModele.Name = "pnlModele";
-            this.pnlModele.Size = new System.Drawing.Size(400, 400);
-            this.pnlModele.TabIndex = 0;
-            this.pnlModele.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlModele_Paint);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 421);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Nom de la position : ";
+            this.label1.Size = new System.Drawing.Size(121, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Ajouter une description :";
             // 
-            // tbxModeleName
+            // tbxDescription
             // 
-            this.tbxModeleName.Location = new System.Drawing.Point(120, 418);
-            this.tbxModeleName.Name = "tbxModeleName";
-            this.tbxModeleName.Size = new System.Drawing.Size(292, 20);
-            this.tbxModeleName.TabIndex = 0;
-            this.tbxModeleName.TextChanged += new System.EventHandler(this.tbxModeleName_TextChanged);
+            this.tbxDescription.Location = new System.Drawing.Point(12, 25);
+            this.tbxDescription.Multiline = true;
+            this.tbxDescription.Name = "tbxDescription";
+            this.tbxDescription.Size = new System.Drawing.Size(276, 134);
+            this.tbxDescription.TabIndex = 1;
+            this.tbxDescription.TextChanged += new System.EventHandler(this.tbxDescription_TextChanged);
             // 
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(120, 444);
+            this.btnSave.Location = new System.Drawing.Point(12, 165);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(200, 23);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Enregistrer la position";
+            this.btnSave.Size = new System.Drawing.Size(276, 23);
+            this.btnSave.TabIndex = 0;
+            this.btnSave.Text = "Enregistrer la description";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            // 
-            // frmNewModele
+            // frmComment
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 479);
+            this.ClientSize = new System.Drawing.Size(300, 200);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.tbxModeleName);
+            this.Controls.Add(this.tbxDescription);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pnlModele);
-            this.Name = "frmNewModele";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "frmComment";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Créer un nouveau modèle";
+            this.Text = "Ajouter une description";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,10 +87,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlModele;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbxModeleName;
+        private System.Windows.Forms.TextBox tbxDescription;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Timer timer1;
     }
 }
