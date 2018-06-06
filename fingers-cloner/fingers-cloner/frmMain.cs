@@ -100,7 +100,7 @@ namespace fingers_cloner
 
         private void pnlModelHand_Paint(object sender, PaintEventArgs e)
         {
-            paint.paintHand(e, saveHand.Fingers);
+            //paint.paintHand(e, );
         }
 
         private void updateCombobox()
