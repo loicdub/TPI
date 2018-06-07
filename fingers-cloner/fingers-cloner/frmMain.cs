@@ -32,13 +32,15 @@ namespace fingers_cloner
         // Initialize Paint class to draw
         Paint paint;
 
-        // Stabilized palm position
-        public Vector palmStabPos;
+        // Precision setted by trackbar
+        int precision;
 
-        // deserialize saved positions
-        savedHand saveHand = new savedHand();
+        // serialize/deserialize saved positions
+        savedHand saveHand;
         string fileSerial = "serialized-position.xml";
         List<savedHand> allPositions;
+        savedHand currentModele;
+        List<Vector> currentModeleFingers;
         #endregion
 
         public frmMain()
@@ -46,15 +48,18 @@ namespace fingers_cloner
             InitializeComponent();
             DoubleBuffered = true;
             leapController = new LeapController(pnlUserHand.Width, pnlUserHand.Height);
-            palmStabPos = new Vector((pnlUserHand.Width / 2), ((pnlUserHand.Height * 3) / 4), 0);
-            paint = new Paint(palmStabPos);
+            paint = new Paint(pnlUserHand.Width, pnlUserHand.Height);
+            saveHand = new savedHand();
+            currentModele = (savedHand)cbxModele.SelectedItem;
             updateCombobox();
+            precision = trackBar1.Value;
         }
 
         // Refresh panel on each tick
         private void timer1_Tick(object sender, EventArgs e)
         {
             pnlUserHand.Invalidate();
+            pnlModelHand.Invalidate();
         }
 
         // Draw a circle to each finger and palm center on their location
@@ -63,7 +68,7 @@ namespace fingers_cloner
         {
             try
             {
-                paint.paintHand(e, leapController.FingersPalmPos);
+                paint.paintHand(e, leapController.FingersPanelPos);
                 lblUserHand.Text = "Votre main :";
                 btnNewModel.Enabled = true;
             }
@@ -74,10 +79,35 @@ namespace fingers_cloner
             }
         }
 
+        private void pnlModelHand_Paint(object sender, PaintEventArgs e)
+        {
+            // if combobox isn't empty, show selected model's description and position
+            if (cbxModele.Items.Count > 0)
+            {
+                paint.paintHand(e, currentModeleFingers);
+                lblDescription.Visible = true;
+            }
+        }
+
+        private void cbxModele_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // set selected item in combobox as the current model
+            currentModele = (savedHand)cbxModele.SelectedItem;
+            lblDescription.Text = currentModele.Description;
+            // create list to store finger's position
+            currentModeleFingers = new List<Vector>();
+
+            for (int i = 0; i < currentModele.Fingers.Count; i++)
+            {
+                // add the finger's position to draw
+                currentModeleFingers.Add(leapController.normalizedToPanel(currentModele.Fingers[i]));
+            }
+        }
+
         // Open a new form to create a new modele
         private void btnNewModel_Click(object sender, EventArgs e)
         {
-            frmNewModele newModele = new frmNewModele();
+            frmNewModele newModele = new frmNewModele(leapController.FingersNormPos, leapController.PalmNormPos);
 
             newModele.ShowDialog();
 
@@ -87,33 +117,16 @@ namespace fingers_cloner
             }
         }
 
-        // Choose the precision required to accept a position
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
-        {
-            lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
-        }
-
-        private void cbxModele_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlModelHand_Paint(object sender, PaintEventArgs e)
-        {
-            //paint.paintHand(e, );
-        }
-
         private void updateCombobox()
         {
-            cbxModele.Items.Clear();
-
+            // get all saved position
             allPositions = saveHand.deserialize(fileSerial);
 
-            for (int i = 0; i < allPositions.Count; i++)
-            {
-                cbxModele.Items.Add(allPositions[i].Name);
-            }
+            // add all position to combobox
+            cbxModele.DataSource = allPositions;
+            cbxModele.DisplayMember = "Name";
 
+            // if combobox isn't empty, select first of the list
             if (cbxModele.Items.Count >= 1)
             {
                 cbxModele.SelectedIndex = 0;
@@ -121,8 +134,16 @@ namespace fingers_cloner
             }
             else
             {
+                // if combobox is empty, disable combobox
                 cbxModele.Enabled = false;
             }
+        }
+
+        // Choose the precision required to accept a position
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
+            precision = trackBar1.Value;
         }
     }
 }

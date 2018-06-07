@@ -41,7 +41,10 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.lblPercentage = new System.Windows.Forms.Label();
+            this.gbxDescription = new System.Windows.Forms.GroupBox();
+            this.lblDescription = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.gbxDescription.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblUserHand
@@ -58,9 +61,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(415, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.Size = new System.Drawing.Size(86, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Main à recopier";
+            this.label2.Text = "Main à recopier :";
             // 
             // timer1
             // 
@@ -146,12 +149,32 @@
             this.lblPercentage.Text = "50%";
             this.lblPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // gbxDescription
+            // 
+            this.gbxDescription.Controls.Add(this.lblDescription);
+            this.gbxDescription.Location = new System.Drawing.Point(824, 25);
+            this.gbxDescription.Name = "gbxDescription";
+            this.gbxDescription.Size = new System.Drawing.Size(182, 400);
+            this.gbxDescription.TabIndex = 14;
+            this.gbxDescription.TabStop = false;
+            this.gbxDescription.Text = "Description";
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.Location = new System.Drawing.Point(6, 16);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(170, 381);
+            this.lblDescription.TabIndex = 0;
+            this.lblDescription.Text = "label4";
+            this.lblDescription.Visible = false;
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnNewModel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(830, 493);
+            this.ClientSize = new System.Drawing.Size(1018, 493);
+            this.Controls.Add(this.gbxDescription);
             this.Controls.Add(this.cbxModele);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPercentage);
@@ -166,6 +189,7 @@
             this.Name = "frmMain";
             this.Text = "Finger\'s cloner";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.gbxDescription.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,6 +207,8 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblPercentage;
+        private System.Windows.Forms.GroupBox gbxDescription;
+        private System.Windows.Forms.Label lblDescription;
     }
 }
 

@@ -22,13 +22,15 @@ namespace fingers_cloner
 {
     class LeapController : Controller
     {
-        // Initialize Paint class to draw
-        Paint paint;
-
+        // Initialisation
         #region getters
         // List of detected hands and the first detected hand
         private List<Hand> _hands;
         private Hand _firstHand;
+
+        // Palm raw, normalized and stabilized location
+        private Vector _palmPos;
+        private Vector _palmNormPos;
 
         // List of all the detected fingers
         private List<Finger> _fingers;
@@ -36,41 +38,37 @@ namespace fingers_cloner
         // Fingers raw, normalized and to the palm location
         private List<Vector> _fingersPos;
         private List<Vector> _fingersNormPos;
-        private List<Vector> _fingersPalmPos;
+        private List<Vector> _fingersPanelPos;
 
-        // Palm raw, normalized and stabilized location
-        private Vector _palmPos;
-        private Vector _palmNormPos;
-        private Vector _palmStabPos;
-
-        // Size of the panel
+        // Dimensions of the panel
         private int _panelWidth;
         private int _panelHeight;
         #endregion
 
         #region setters
-        public List<Finger> Fingers { get => _fingers; set => _fingers = value; }
-        public List<Vector> FingersPos { get => _fingersPos; set => _fingersPos = value; }
-        public List<Vector> FingersNormPos { get => _fingersNormPos; set => _fingersNormPos = value; }
-        public List<Vector> FingersPalmPos { get => _fingersPalmPos; set => _fingersPalmPos = value; }
-        public Vector PalmPos { get => _palmPos; set => _palmPos = value; }
-        public Vector PalmNormPos { get => _palmNormPos; set => _palmNormPos = value; }
-        public Vector PalmStabPos { get => _palmStabPos; set => _palmStabPos = value; }
         public List<Hand> Hands { get => _hands; set => _hands = value; }
         public Hand FirstHand { get => _firstHand; set => _firstHand = value; }
+        public List<Finger> Fingers { get => _fingers; set => _fingers = value; }
+        public List<Vector> FingersStabPos { get => _fingersPos; set => _fingersPos = value; }
+        public List<Vector> FingersNormPos { get => _fingersNormPos; set => _fingersNormPos = value; }
+        public List<Vector> FingersPanelPos { get => _fingersPanelPos; set => _fingersPanelPos = value; }
+        public Vector PalmPos { get => _palmPos; set => _palmPos = value; }
+        public Vector PalmNormPos { get => _palmNormPos; set => _palmNormPos = value; }
         #endregion
 
+        /// <summary>
+        /// Leap default constructor
+        /// </summary>
+        /// <param name="panelWidth">Width of the panel</param>
+        /// <param name="panelHeight">Height of the panel</param>
         public LeapController(int panelWidth, int panelHeight)
         {
             EventContext = WindowsFormsSynchronizationContext.Current;
             FrameReady += newFrameHandler;
 
-            // Stabilized palm position
+            // Assign parameter of the panel's width and height
             this._panelWidth = panelWidth;
             this._panelHeight = panelHeight;
-            PalmStabPos = new Vector((_panelWidth / 2), ((_panelHeight / 4) * 3), 0);
-
-            paint = new Paint(PalmStabPos);            
         }
 
         /// <summary>
@@ -88,37 +86,45 @@ namespace fingers_cloner
                 Hands = frame.Hands;
                 FirstHand = Hands[0];
 
-                Fingers = FirstHand.Fingers;
-                FingersPos = new List<Vector>();
-                FingersNormPos = new List<Vector>();
-                FingersPalmPos = new List<Vector>();
-
                 PalmPos = FirstHand.PalmPosition;
                 PalmNormPos = iBox.NormalizePoint(PalmPos);
 
+                Fingers = FirstHand.Fingers;
+                FingersStabPos = new List<Vector>();
+                FingersNormPos = new List<Vector>();
+                FingersPanelPos = new List<Vector>();
+
                 for (int i = 0; i < Fingers.Count; i++)
                 {
-                    FingersPos.Add(Fingers[i].StabilizedTipPosition);
-                    FingersNormPos.Add(iBox.NormalizePoint(FingersPos[i]));
-                    FingersPalmPos.Add(stabilizedToPalmPos(FingersPos[i]));
+                    FingersStabPos.Add(Fingers[i].StabilizedTipPosition);
+                    FingersNormPos.Add(iBox.NormalizePoint(FingersStabPos[i]));
+                    FingersPanelPos.Add(normalizedToPanel(FingersNormPos[i]));
                 }
             }
         }
 
-        // Calculate fingers location compared to the palm location
-        private Vector stabilizedToPalmPos(Vector stabilizedPos)
+        /// <summary>
+        /// Calculate fingers location based on the palm location
+        /// </summary>
+        /// <param name="normalizedPos">Finger's normalized position</param>
+        /// <returns>Finger's location on panel</returns>
+        public Vector normalizedToPanel(Vector normalizedPos)
         {
-            Vector fingerPalmPos;
+            Vector fingerPanelPos;
+            float scaleFactor = 1.4f;
 
-            float fingersPalmDiffX = stabilizedPos.x - PalmPos.x;
-            float fingersPalmDiffY = stabilizedPos.y - PalmPos.y;
+            float fingersPalmDiffX = PalmNormPos.x - normalizedPos.x;
+            float fingersPalmDiffZ = PalmNormPos.z - normalizedPos.z;
 
-            float fingerStabPosX = PalmStabPos.x - 2 * fingersPalmDiffX;
-            float fingerStabPosY = PalmStabPos.y - 2 * fingersPalmDiffY;
+            float fingerNormToPalmX = PalmNormPos.x - fingersPalmDiffX;
+            float fingerNormToPalmZ = (scaleFactor * PalmNormPos.z) - fingersPalmDiffZ;
 
-            fingerPalmPos = new Vector(fingerStabPosX, fingerStabPosY, 0);
+            float fingerNormToPanelX = fingerNormToPalmX * _panelWidth;
+            float fingerNormToPanelZ = fingerNormToPalmZ * _panelHeight;
 
-            return fingerPalmPos;
+            fingerPanelPos = new Vector(fingerNormToPanelX, 0, fingerNormToPanelZ);
+
+            return fingerPanelPos;
         }
     }
 }

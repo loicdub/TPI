@@ -26,27 +26,33 @@ namespace fingers_cloner
         const int CIRCLESIZE = 50;
 
         // Palm location in the panel
-        private Vector _palmStabPos;
-        public Vector PalmStabPos { get => _palmStabPos; set => _palmStabPos = value; }
+        Vector palmStabPos;
 
-        public Paint(Vector palmStabPos)
-        {
-            this.PalmStabPos = palmStabPos;
+        // Dimensions of the panel
+        private int _panelWidth;
+        private int _panelHeight;
+        public int PanelWidth { get => _panelWidth; set => _panelWidth = value; }
+        public int PanelHeight { get => _panelHeight; set => _panelHeight = value; }
+
+        public Paint(int panelWidth, int panelHeight) {
+            this.PanelWidth = panelWidth;
+            this.PanelHeight = panelHeight;
+
+            palmStabPos = new Vector((PanelWidth / 2), 0, ((PanelHeight * 3) / 4));
         }
-
-
+        
         /// <summary>
         /// Draw the hand of the user
         /// </summary>
         /// <param name="e">Paint event</param>
-        /// <param name="fingersPalmPos">Position of the fingers from the palm position</param>
-        public void paintHand(PaintEventArgs e, List<Vector> fingersPalmPos)
+        /// <param name="fingersPanelPos">Position of the fingers based on panel dimensions</param>
+        public void paintHand(PaintEventArgs e, List<Vector> fingersPanelPos)
         {
-            this.DrawEllipseRectangle(e, Convert.ToInt32(PalmStabPos.x), Convert.ToInt32(PalmStabPos.y));
-            for (int i = 0; i < fingersPalmPos.Count; i++)
+            this.DrawEllipseRectangle(e, Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.z));
+            for (int i = 0; i < fingersPanelPos.Count; i++)
             {
-                this.DrawEllipseRectangle(e, Convert.ToInt32(fingersPalmPos[i].x), Convert.ToInt32(fingersPalmPos[i].y));
-                this.DrawLinePoint(e, Convert.ToInt32(fingersPalmPos[i].x), Convert.ToInt32(fingersPalmPos[i].y));
+                this.DrawEllipseRectangle(e, Convert.ToInt32(fingersPanelPos[i].x), Convert.ToInt32(fingersPanelPos[i].z));
+                this.DrawLinePoint(e, Convert.ToInt32(fingersPanelPos[i].x), Convert.ToInt32(fingersPanelPos[i].z));
             }
         }
 
@@ -56,14 +62,14 @@ namespace fingers_cloner
         /// </summary>
         /// <param name="e">Paint event</param>
         /// <param name="x">Horizonzal coordinate of finger/palm</param>
-        /// <param name="y">Vertical coordinate of finger/palm</param>
-        private void DrawEllipseRectangle(PaintEventArgs e, int x, int y)
+        /// <param name="z">Vertical coordinate of finger/palm</param>
+        private void DrawEllipseRectangle(PaintEventArgs e, int x, int z)
         {
             // Create pen.
             Pen blackPen = new Pen(Color.Black, 3);
 
             // Create rectangle for ellipse.
-            Rectangle rect = new Rectangle(x - (CIRCLESIZE / 2), y - (CIRCLESIZE / 2), CIRCLESIZE, CIRCLESIZE);
+            Rectangle rect = new Rectangle(x - (CIRCLESIZE / 2), z - (CIRCLESIZE / 2), CIRCLESIZE, CIRCLESIZE);
 
             // Draw ellipse to screen.
             e.Graphics.DrawEllipse(blackPen, rect);
@@ -74,15 +80,15 @@ namespace fingers_cloner
         /// </summary>
         /// <param name="e">Paint event</param>
         /// <param name="x">Horizontal coordinate of finger</param>
-        /// <param name="y">Vertical coordinate of finger</param>
-        private void DrawLinePoint(PaintEventArgs e, int x, int y)
+        /// <param name="z">Vertical coordinate of finger</param>
+        private void DrawLinePoint(PaintEventArgs e, int x, int z)
         {
             // Create pen.
             Pen blackPen = new Pen(Color.Black, 3);
 
             // Create points that define line.
-            Point point1 = new Point(Convert.ToInt32(PalmStabPos.x), Convert.ToInt32(PalmStabPos.y));
-            Point point2 = new Point(x, y);
+            Point point1 = new Point(Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.z));
+            Point point2 = new Point(x, z);
 
             // Draw line to screen.
             e.Graphics.DrawLine(blackPen, point1, point2);

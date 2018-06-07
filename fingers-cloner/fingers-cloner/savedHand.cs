@@ -15,15 +15,15 @@ namespace fingers_cloner
     [Serializable]
     public class savedHand
     {
-        private List<Vector> _fingers;
-        private Vector _palm;
         private string _name;
         private string _description;
+        private List<Vector> _fingers;
+        private Vector _palm;
 
-        public List<Vector> Fingers { get => _fingers; set => _fingers = value; }
-        public Vector Palm { get => _palm; set => _palm = value; }
         public string Name { get => _name; set => _name = value; }
         public string Description { get => _description; set => _description = value; }
+        public List<Vector> Fingers { get => _fingers; set => _fingers = value; }
+        public Vector Palm { get => _palm; set => _palm = value; }        
 
         List<savedHand> allPosition;
         
