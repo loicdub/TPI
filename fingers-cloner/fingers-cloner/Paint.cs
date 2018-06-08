@@ -43,7 +43,7 @@ namespace fingers_cloner
         #endregion
 
         /// <summary>
-        /// Pain constructor
+        /// Paint constructor
         /// </summary>
         /// <param name="panelWidth">Panel width</param>
         /// <param name="panelHeight">Panel height</param>
@@ -52,7 +52,7 @@ namespace fingers_cloner
             this.PanelWidth = panelWidth;
             this.PanelHeight = panelHeight;
 
-            palmStabPos = new Vector((PanelWidth / 2), 0, ((PanelHeight * 3) / 4));
+            palmStabPos = new Vector((PanelWidth / 2), 0, (PanelHeight - CIRCLESIZE));
         }
 
         #region drawing
@@ -73,7 +73,7 @@ namespace fingers_cloner
                 this.DrawLinePoint(e, Convert.ToInt32(fingersStabPos[i].x), Convert.ToInt32(fingersStabPos[i].z));
             }
         }
-        
+
         /// <summary>
         /// Draw a circle at a certain location
         /// </summary>
@@ -118,12 +118,16 @@ namespace fingers_cloner
         /// <returns>A list of vector with the finger's position to the palm</returns>
         public List<Vector> normToPalmStabPos()
         {
+            float scaleFactor = PanelHeight + CIRCLESIZE;
             List<Vector> fingersStabPos = new List<Vector>();
-            float scaleFactor = 0.5f;
+            Vector originToPalm = new Vector(Hand.PalmNormPos.x, 0, Hand.PalmNormPos.z);
+            List<Vector> originToFingers = new List<Vector>();
 
             for (int i = 0; i < Hand.FingersNormPos.Count; i++)
             {
-                fingersStabPos.Add(new Vector(((Hand.FingersNormPos[i].x * palmStabPos.x) / Hand.PalmNormPos.x), 0, ((Hand.FingersNormPos[i].z * palmStabPos.z) / Hand.PalmNormPos.z)* scaleFactor));
+                originToFingers.Add(new Vector(Hand.FingersNormPos[i].x, 0, Hand.FingersNormPos[i].z));
+
+                fingersStabPos.Add(new Vector((-originToPalm + originToFingers[i]) * scaleFactor + palmStabPos));
             }
 
             return fingersStabPos;

@@ -113,6 +113,14 @@ namespace fingers_cloner
             }
         }
 
+        // Choose the precision required to accept a position
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
+            precision = trackBar1.Value;
+        }
+
+        #region functions
         /// <summary>
         /// Update combobox with the latest saved positions
         /// </summary>
@@ -151,11 +159,17 @@ namespace fingers_cloner
             pnlModelHand.Invalidate();
         }
 
-        // Choose the precision required to accept a position
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
-        {
-            lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
-            precision = trackBar1.Value;
+        private List<Vector> comparePosition(MyHand user, MyHand model, int precision) {
+            List<Vector> fingerDiff = new List<Vector>();
+            int tolerance = precision - 100;
+
+            for (int i = 0; i < user.FingersNormPos.Count; i++)
+            {
+                fingerDiff.Add(user.FingersNormPos[i] - model.FingersNormPos[i]);
+            }
+
+            return fingerDiff;
         }
+        #endregion
     }
 }
