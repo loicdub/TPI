@@ -70,10 +70,11 @@
       <DependentUpon>frmNewModele.cs</DependentUpon>
     </Compile>
     <Compile Include="LeapController.cs" />
+    <Compile Include="MyHand.cs" />
     <Compile Include="Paint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="savedHand.cs" />
+    <Compile Include="Serialization.cs" />
     <EmbeddedResource Include="frmComment.resx">
       <DependentUpon>frmComment.cs</DependentUpon>
     </EmbeddedResource>

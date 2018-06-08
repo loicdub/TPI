@@ -22,10 +22,11 @@ namespace fingers_cloner
 {
     class Paint
     {
+        #region Initialization
         // Fixed circle size
         const int CIRCLESIZE = 50;
 
-        // Palm location in the panel
+        // Palm fixed location in the panel
         Vector palmStabPos;
 
         // Dimensions of the panel
@@ -34,29 +35,45 @@ namespace fingers_cloner
         public int PanelWidth { get => _panelWidth; set => _panelWidth = value; }
         public int PanelHeight { get => _panelHeight; set => _panelHeight = value; }
 
-        public Paint(int panelWidth, int panelHeight) {
+        // hand to draw
+        private MyHand _hand;
+        private List<Vector> fingersStabPos;
+        public MyHand Hand { get => _hand; set => _hand = value; }
+        public List<Vector> FingersStabPos { get => fingersStabPos; set => fingersStabPos = value; }
+        #endregion
+
+        /// <summary>
+        /// Pain constructor
+        /// </summary>
+        /// <param name="panelWidth">Panel width</param>
+        /// <param name="panelHeight">Panel height</param>
+        public Paint(int panelWidth, int panelHeight)
+        {
             this.PanelWidth = panelWidth;
             this.PanelHeight = panelHeight;
 
             palmStabPos = new Vector((PanelWidth / 2), 0, ((PanelHeight * 3) / 4));
         }
-        
+
+        #region drawing
         /// <summary>
         /// Draw the hand of the user
         /// </summary>
         /// <param name="e">Paint event</param>
         /// <param name="fingersPanelPos">Position of the fingers based on panel dimensions</param>
-        public void paintHand(PaintEventArgs e, List<Vector> fingersPanelPos)
+        public void paintHand(PaintEventArgs e, MyHand hand)
         {
+            this.Hand = hand;
+            fingersStabPos = normToPalmStabPos();
+
             this.DrawEllipseRectangle(e, Convert.ToInt32(palmStabPos.x), Convert.ToInt32(palmStabPos.z));
-            for (int i = 0; i < fingersPanelPos.Count; i++)
+            for (int i = 0; i < fingersStabPos.Count; i++)
             {
-                this.DrawEllipseRectangle(e, Convert.ToInt32(fingersPanelPos[i].x), Convert.ToInt32(fingersPanelPos[i].z));
-                this.DrawLinePoint(e, Convert.ToInt32(fingersPanelPos[i].x), Convert.ToInt32(fingersPanelPos[i].z));
+                this.DrawEllipseRectangle(e, Convert.ToInt32(fingersStabPos[i].x), Convert.ToInt32(fingersStabPos[i].z));
+                this.DrawLinePoint(e, Convert.ToInt32(fingersStabPos[i].x), Convert.ToInt32(fingersStabPos[i].z));
             }
         }
-
-        #region drawing
+        
         /// <summary>
         /// Draw a circle at a certain location
         /// </summary>
@@ -94,5 +111,22 @@ namespace fingers_cloner
             e.Graphics.DrawLine(blackPen, point1, point2);
         }
         #endregion
+
+        /// <summary>
+        /// Calculate the position on the panel with the normalized vector
+        /// </summary>
+        /// <returns>A list of vector with the finger's position to the palm</returns>
+        public List<Vector> normToPalmStabPos()
+        {
+            List<Vector> fingersStabPos = new List<Vector>();
+            float scaleFactor = 0.5f;
+
+            for (int i = 0; i < Hand.FingersNormPos.Count; i++)
+            {
+                fingersStabPos.Add(new Vector(((Hand.FingersNormPos[i].x * palmStabPos.x) / Hand.PalmNormPos.x), 0, ((Hand.FingersNormPos[i].z * palmStabPos.z) / Hand.PalmNormPos.z)* scaleFactor));
+            }
+
+            return fingersStabPos;
+        }
     }
 }

@@ -48,15 +48,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 421);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.Size = new System.Drawing.Size(199, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Nom de la position : ";
+            this.label1.Text = "Nom de la position (24 caractères max) : ";
             // 
             // tbxModeleName
             // 
-            this.tbxModeleName.Location = new System.Drawing.Point(120, 418);
+            this.tbxModeleName.Location = new System.Drawing.Point(215, 418);
+            this.tbxModeleName.MaxLength = 24;
             this.tbxModeleName.Name = "tbxModeleName";
-            this.tbxModeleName.Size = new System.Drawing.Size(292, 20);
+            this.tbxModeleName.Size = new System.Drawing.Size(197, 20);
             this.tbxModeleName.TabIndex = 0;
             this.tbxModeleName.TextChanged += new System.EventHandler(this.tbxModeleName_TextChanged);
             // 
@@ -78,9 +79,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 479);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tbxModeleName);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlModele);
             this.Name = "frmNewModele";
             this.ShowIcon = false;

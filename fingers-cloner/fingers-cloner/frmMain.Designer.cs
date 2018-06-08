@@ -42,6 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblPercentage = new System.Windows.Forms.Label();
             this.gbxDescription = new System.Windows.Forms.GroupBox();
+            this.lblName = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.gbxDescription.SuspendLayout();
@@ -151,6 +152,7 @@
             // 
             // gbxDescription
             // 
+            this.gbxDescription.Controls.Add(this.lblName);
             this.gbxDescription.Controls.Add(this.lblDescription);
             this.gbxDescription.Location = new System.Drawing.Point(824, 25);
             this.gbxDescription.Name = "gbxDescription";
@@ -159,11 +161,22 @@
             this.gbxDescription.TabStop = false;
             this.gbxDescription.Text = "Description";
             // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(6, 16);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(55, 20);
+            this.lblName.TabIndex = 1;
+            this.lblName.Text = "Name";
+            this.lblName.Visible = false;
+            // 
             // lblDescription
             // 
-            this.lblDescription.Location = new System.Drawing.Point(6, 16);
+            this.lblDescription.Location = new System.Drawing.Point(6, 56);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(170, 381);
+            this.lblDescription.Size = new System.Drawing.Size(170, 341);
             this.lblDescription.TabIndex = 0;
             this.lblDescription.Text = "label4";
             this.lblDescription.Visible = false;
@@ -190,6 +203,7 @@
             this.Text = "Finger\'s cloner";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.gbxDescription.ResumeLayout(false);
+            this.gbxDescription.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,6 +223,7 @@
         private System.Windows.Forms.Label lblPercentage;
         private System.Windows.Forms.GroupBox gbxDescription;
         private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.Label lblName;
     }
 }
 
