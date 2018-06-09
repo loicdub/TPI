@@ -52,7 +52,7 @@ namespace fingers_cloner
         public Vector PalmNormPos { get => _palmNormPos; set => _palmNormPos = value; }
         public MyHand UserHand { get => _userHand; set => _userHand = value; }
         #endregion
-        
+
         /// <summary>
         /// Leap Motion's default constructor
         /// </summary>

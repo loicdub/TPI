@@ -34,9 +34,12 @@ namespace fingers_cloner
         // Initialize Hand class to store hands position info
         MyHand userHand;
         MyHand modeleHand;
+        List<Color> userFingersColor;
 
         // Precision setted by trackbar
         int precision;
+        List<Vector> handsDiff;
+        List<double> fingersDist;
 
         // serialize/deserialize saved positions
         Serialization savedPositions;
@@ -54,7 +57,6 @@ namespace fingers_cloner
             savedPositions = new Serialization();
 
             updateCombobox();
-            
 
             precision = trackBar1.Value;
         }
@@ -73,7 +75,18 @@ namespace fingers_cloner
         {
             try
             {
-                paint.paintHand(e, userHand);
+                // if combobox isn't empty, compare current model with user's hand
+                if (cbxModele.Items.Count > 0)
+                {
+                    comparePosition();
+                    userFingersColor = colorIndicator();
+                    paint.paintHandColor(e, userHand, userFingersColor);
+                }
+                else
+                {
+                    paint.paintHand(e, userHand);
+                }
+
                 lblUserHand.Text = "Votre main :";
                 btnNewModel.Enabled = true;
             }
@@ -150,7 +163,8 @@ namespace fingers_cloner
         /// <summary>
         /// Met à jour le modèle sélectionné, affiche son nom, sa description et rafraîchit le panel
         /// </summary>
-        private void updateModele() {
+        private void updateModele()
+        {
             modeleHand = (MyHand)cbxModele.SelectedItem;
 
             lblName.Text = modeleHand.Name;
@@ -159,16 +173,57 @@ namespace fingers_cloner
             pnlModelHand.Invalidate();
         }
 
-        private List<Vector> comparePosition(MyHand user, MyHand model, int precision) {
-            List<Vector> fingerDiff = new List<Vector>();
-            int tolerance = precision - 100;
+        /// <summary>
+        /// Calculate distance between each fingers of user's and model's hand
+        /// </summary>
+        /// <returns>A list of distances between each fingers</returns>
+        private List<double> comparePosition()
+        {
+            handsDiff = new List<Vector>();
+            fingersDist = new List<double>();
+            List<Vector> modelePanelPos = paint.normToPalmPanelModelePos(modeleHand);
 
-            for (int i = 0; i < user.FingersNormPos.Count; i++)
+            for (int i = 0; i < paint.FingersPanelPos.Count; i++)
             {
-                fingerDiff.Add(user.FingersNormPos[i] - model.FingersNormPos[i]);
+                handsDiff.Add(paint.FingersPanelPos[i] - modelePanelPos[i]);
+                fingersDist.Add(Math.Sqrt(
+                    (Math.Pow(handsDiff[i].x, 2)) + (Math.Pow(handsDiff[i].z, 2))
+                    ));
             }
 
-            return fingerDiff;
+            return fingersDist;
+        }
+
+        /// <summary>
+        /// List of color for each fingers to show how close user's hand is to model
+        /// </summary>
+        /// <returns>List of the colors</returns>
+        private List<Color> colorIndicator()
+        {
+            List<Color> color = new List<Color>();
+            int tolerance = 100 - this.precision;
+
+            for (int i = 0; i < fingersDist.Count; i++)
+            {
+                if (fingersDist[i] < tolerance)
+                {
+                    color.Add(Color.Green);
+                }
+                else if (fingersDist[i] < (tolerance + 10))
+                {
+                    color.Add(Color.Orange);
+                }
+                else if (fingersDist[i] < (tolerance + 30))
+                {
+                    color.Add(Color.Red);
+                }
+                else
+                {
+                    color.Add(Color.Black);
+                }
+            }
+
+            return color;
         }
         #endregion
     }
