@@ -105,6 +105,8 @@ namespace fingers_cloner
                 paint.paintHand(e, modeleHand);
                 lblName.Visible = true;
                 lblDescription.Visible = true;
+                btnEdit.Enabled = true;
+                btnDelete.Enabled = true;
             }
         }
 
@@ -132,6 +134,25 @@ namespace fingers_cloner
             lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
             precision = trackBar1.Value;
         }
+
+        #region edition
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            frmEdit edit = new frmEdit(modeleHand.Name, modeleHand.Description);
+
+            edit.ShowDialog();
+
+            if (edit.DialogResult == DialogResult.OK)
+            {
+                updateCombobox();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            updateModele();
+        }
+        #endregion
 
         #region functions
         /// <summary>
