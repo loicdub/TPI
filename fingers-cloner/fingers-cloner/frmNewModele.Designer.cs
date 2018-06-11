@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbxModeleName = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnLoadImage = new System.Windows.Forms.Button();
+            this.lblFileName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // pnlModele
@@ -65,20 +67,41 @@
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(120, 444);
+            this.btnSave.Location = new System.Drawing.Point(12, 473);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(200, 23);
+            this.btnSave.Size = new System.Drawing.Size(400, 23);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "Enregistrer la position";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnLoadImage
+            // 
+            this.btnLoadImage.Location = new System.Drawing.Point(12, 444);
+            this.btnLoadImage.Name = "btnLoadImage";
+            this.btnLoadImage.Size = new System.Drawing.Size(199, 23);
+            this.btnLoadImage.TabIndex = 0;
+            this.btnLoadImage.Text = "Charger une image (optionnel)...";
+            this.btnLoadImage.UseVisualStyleBackColor = true;
+            this.btnLoadImage.Click += new System.EventHandler(this.btnLoadImage_Click);
+            // 
+            // lblFileName
+            // 
+            this.lblFileName.Location = new System.Drawing.Point(217, 449);
+            this.lblFileName.Name = "lblFileName";
+            this.lblFileName.Size = new System.Drawing.Size(195, 13);
+            this.lblFileName.TabIndex = 2;
+            this.lblFileName.Text = "lblFileName";
+            this.lblFileName.Visible = false;
             // 
             // frmNewModele
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 479);
+            this.ClientSize = new System.Drawing.Size(424, 508);
+            this.Controls.Add(this.lblFileName);
+            this.Controls.Add(this.btnLoadImage);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tbxModeleName);
@@ -99,5 +122,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbxModeleName;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnLoadImage;
+        private System.Windows.Forms.Label lblFileName;
     }
 }

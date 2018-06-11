@@ -41,9 +41,11 @@ namespace fingers_cloner
         // Initialize serialization functions
         Serialization serialization;
 
-        // name and description of the model
+        // name, description and picture of the model
         string name;
-        string description;  
+        string description;
+        Bitmap loadedPicture;
+        string imageAsString;
         #endregion
 
         /// <summary>
@@ -89,10 +91,27 @@ namespace fingers_cloner
             }
         }
 
+        private void btnLoadImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.InitialDirectory = "C:\\Users";
+            ofd.Filter = "Image files (*.png, *.jpg, *.jpeg, *.gif, *.bmp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                loadedPicture = new Bitmap(ofd.FileName);
+                lblFileName.Text = ofd.SafeFileName;
+                lblFileName.Visible = true;
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(Bitmap));
+                imageAsString = Convert.ToBase64String((Byte[])converter.ConvertTo(loadedPicture, typeof(Byte[])));
+            }
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             name = tbxModeleName.Text;
-            
+
             // Open a new form to add a description
             frmComment comment = new frmComment();
             comment.ShowDialog();
@@ -104,6 +123,10 @@ namespace fingers_cloner
                 description = comment.Description;
                 currentPosition.Description = description;
                 currentPosition.Name = name;
+                if (loadedPicture != null)
+                {
+                    currentPosition.Image = imageAsString;
+                }
 
                 // serialize the savedHand object
                 serialization.serialize(currentPosition);
@@ -116,9 +139,10 @@ namespace fingers_cloner
         /// <summary>
         /// if there is no hand detected by the Leap, user is informed and send back to main form
         /// </summary>
-        private void NoHandDetected() {
+        private void NoHandDetected()
+        {
             MessageBox.Show("Aucune main détectée. Veuillez réessayer.");
             this.Close();
-        }
+        }        
     }
 }

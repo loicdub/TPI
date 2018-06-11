@@ -34,6 +34,7 @@
             this.tbxDescription = new System.Windows.Forms.TextBox();
             this.btnImage = new System.Windows.Forms.Button();
             this.btnValidate = new System.Windows.Forms.Button();
+            this.lblFileName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -76,10 +77,11 @@
             // 
             this.btnImage.Location = new System.Drawing.Point(15, 172);
             this.btnImage.Name = "btnImage";
-            this.btnImage.Size = new System.Drawing.Size(257, 23);
+            this.btnImage.Size = new System.Drawing.Size(128, 23);
             this.btnImage.TabIndex = 5;
             this.btnImage.Text = "Choisir une image...";
             this.btnImage.UseVisualStyleBackColor = true;
+            this.btnImage.Click += new System.EventHandler(this.btnImage_Click);
             // 
             // btnValidate
             // 
@@ -92,12 +94,22 @@
             this.btnValidate.Text = "Valider";
             this.btnValidate.UseVisualStyleBackColor = true;
             // 
+            // lblFileName
+            // 
+            this.lblFileName.Location = new System.Drawing.Point(149, 177);
+            this.lblFileName.Name = "lblFileName";
+            this.lblFileName.Size = new System.Drawing.Size(123, 13);
+            this.lblFileName.TabIndex = 7;
+            this.lblFileName.Text = "lblFileName";
+            this.lblFileName.Visible = false;
+            // 
             // frmEdit
             // 
             this.AcceptButton = this.btnImage;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 236);
+            this.Controls.Add(this.lblFileName);
             this.Controls.Add(this.btnValidate);
             this.Controls.Add(this.btnImage);
             this.Controls.Add(this.tbxDescription);
@@ -125,5 +137,6 @@
         private System.Windows.Forms.TextBox tbxDescription;
         private System.Windows.Forms.Button btnImage;
         private System.Windows.Forms.Button btnValidate;
+        private System.Windows.Forms.Label lblFileName;
     }
 }

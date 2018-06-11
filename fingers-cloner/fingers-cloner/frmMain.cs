@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 // References to add
 using Leap;
+using System.IO;
 
 namespace fingers_cloner
 {
@@ -150,6 +151,13 @@ namespace fingers_cloner
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult delete = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la position " + modeleHand.Name + " ?", "Supprimer une position", MessageBoxButtons.YesNo);
+
+            if (delete == DialogResult.Yes)
+            {
+                //do something
+            }
+
             updateModele();
         }
         #endregion
@@ -190,6 +198,14 @@ namespace fingers_cloner
 
             lblName.Text = modeleHand.Name;
             lblDescription.Text = modeleHand.Description;
+            if (modeleHand.Image != null)
+            {
+                pbxModele.Image = stringToImage(modeleHand.Image);
+            }
+            else
+            {
+                pbxModele.Image = Properties.Resources.no_image_available;
+            }
 
             pnlModelHand.Invalidate();
         }
@@ -245,6 +261,18 @@ namespace fingers_cloner
             }
 
             return color;
+        }
+
+        private System.Drawing.Image stringToImage(string stringImage)
+        {
+            System.Drawing.Image image;
+
+            Byte[] stringAsByte = Convert.FromBase64String(stringImage);
+            MemoryStream memstr = new MemoryStream(stringAsByte);
+
+            image = System.Drawing.Image.FromStream(memstr);
+
+            return image;
         }
         #endregion
     }

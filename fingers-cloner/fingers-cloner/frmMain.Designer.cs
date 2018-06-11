@@ -46,8 +46,10 @@
             this.lblDescription = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.pbxModele = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.gbxDescription.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxModele)).BeginInit();
             this.SuspendLayout();
             // 
             // lblUserHand
@@ -158,7 +160,7 @@
             this.gbxDescription.Controls.Add(this.lblDescription);
             this.gbxDescription.Location = new System.Drawing.Point(824, 25);
             this.gbxDescription.Name = "gbxDescription";
-            this.gbxDescription.Size = new System.Drawing.Size(182, 400);
+            this.gbxDescription.Size = new System.Drawing.Size(182, 218);
             this.gbxDescription.TabIndex = 14;
             this.gbxDescription.TabStop = false;
             this.gbxDescription.Text = "Description";
@@ -178,7 +180,7 @@
             // 
             this.lblDescription.Location = new System.Drawing.Point(6, 56);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(170, 341);
+            this.lblDescription.Size = new System.Drawing.Size(170, 159);
             this.lblDescription.TabIndex = 0;
             this.lblDescription.Text = "label4";
             this.lblDescription.Visible = false;
@@ -205,12 +207,23 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // pbxModele
+            // 
+            this.pbxModele.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbxModele.Location = new System.Drawing.Point(824, 249);
+            this.pbxModele.Name = "pbxModele";
+            this.pbxModele.Size = new System.Drawing.Size(176, 176);
+            this.pbxModele.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxModele.TabIndex = 2;
+            this.pbxModele.TabStop = false;
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnNewModel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 495);
+            this.Controls.Add(this.pbxModele);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.gbxDescription);
@@ -230,6 +243,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.gbxDescription.ResumeLayout(false);
             this.gbxDescription.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxModele)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,6 +266,7 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.PictureBox pbxModele;
     }
 }
 
