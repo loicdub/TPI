@@ -122,6 +122,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy /yr "C:\Users\dubasl_info\Desktop\TPI\LeapSDK\lib\x64\LeapC.dll" "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>xcopy /yr "C:\Users\Personnel\Desktop\TPI\LeapSDK\lib\x64\LeapC.dll" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>
