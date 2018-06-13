@@ -59,6 +59,7 @@ namespace fingers_cloner
             paint.GetPanelSize(pnlUserHand.Width, pnlUserHand.Height);
 
             updateCombobox();
+            updateModele();
 
             precision = trackBar1.Value;
         }
@@ -82,7 +83,7 @@ namespace fingers_cloner
                     comparePosition();
                     userFingersColor = colorIndicator();
                     paint.paintHandColor(e, userHand, userFingersColor);
-                    //pnlUserHand.BackColor = panelColor(userFingersColor);
+
                     ControlPaint.DrawBorder(e.Graphics, this.pnlUserHand.ClientRectangle, panelColor(userFingersColor), ButtonBorderStyle.Solid);
                 }
                 else
@@ -106,8 +107,6 @@ namespace fingers_cloner
             if (cbxModele.Items.Count > 0)
             {
                 paint.paintHand(e, modeleHand);
-                lblName.Visible = true;
-                lblDescription.Visible = true;
                 btnEdit.Enabled = true;
                 btnDelete.Enabled = true;
             }
@@ -123,6 +122,7 @@ namespace fingers_cloner
         {
             frmNewModele newModele = new frmNewModele(userHand);
 
+            newModele.getAllPositions(allPositions);
             newModele.ShowDialog();
 
             if (newModele.DialogResult == DialogResult.OK)
@@ -147,7 +147,7 @@ namespace fingers_cloner
         #region edition
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            frmEdit edit = new frmEdit(modeleHand.Name, modeleHand.Description);
+            frmEdit edit = new frmEdit(modeleHand);
 
             edit.ShowDialog();
 
@@ -163,10 +163,11 @@ namespace fingers_cloner
 
             if (delete == DialogResult.Yes)
             {
-                //do something
+                savedPositions.deletePosition(modeleHand.Name);
+                updateCombobox();
+                updateModele();
+                pnlModelHand.Invalidate();
             }
-
-            updateModele();
         }
         #endregion
 
@@ -192,8 +193,10 @@ namespace fingers_cloner
             }
             else
             {
-                // if combobox is empty, disable combobox
+                // if combobox is empty, disable combobox and edition buttons
                 cbxModele.Enabled = false;
+                btnEdit.Enabled = false;
+                btnDelete.Enabled = false;
             }
         }
 
@@ -204,16 +207,27 @@ namespace fingers_cloner
         {
             modeleHand = (MyHand)cbxModele.SelectedItem;
 
-            lblName.Text = modeleHand.Name;
-            lblDescription.Text = modeleHand.Description;
-            if (modeleHand.Image != null)
+            if (modeleHand != null)
             {
-                pbxModele.Image = stringToImage(modeleHand.Image);
+                lblName.Text = modeleHand.Name;
+                lblDescription.Text = modeleHand.Description;
+                if (modeleHand.Image != null)
+                {
+                    pbxModele.Image = stringToImage(modeleHand.Image);
+                }
+                else
+                {
+                    pbxModele.Image = Properties.Resources.no_image_available;
+                }
             }
             else
             {
-                pbxModele.Image = Properties.Resources.no_image_available;
+                lblName.Text = "Aucun modèle";
+                lblDescription.Text = "Aucun modèle n'est chargé. Créez-en ou sélectionnez-en un !";
             }
+
+            lblName.Visible = true;
+            lblDescription.Visible = true;
 
             pnlModelHand.Invalidate();
         }

@@ -14,19 +14,20 @@ namespace fingers_cloner
     {
         #region initialization
         // name, description and picture of the model
-        string name;
-        string description;
+        MyHand handToEdit;
         Bitmap loadedPicture;
         string imageAsString;
+
+        // Initialize serialization functions
+        Serialization serialization;
         #endregion
-        public frmEdit(string name, string description)
+        public frmEdit(MyHand modelHand)
         {
             InitializeComponent();
-            this.name = name;
-            this.description = description;
-
-            tbxName.Text = this.name;
-            tbxDescription.Text = this.description;
+            handToEdit = modelHand;
+            
+            tbxName.Text = handToEdit.Name;
+            tbxDescription.Text = handToEdit.Description;
         }
 
         private void tbxName_TextChanged(object sender, EventArgs e)
@@ -68,6 +69,16 @@ namespace fingers_cloner
                 TypeConverter converter = TypeDescriptor.GetConverter(typeof(Bitmap));
                 imageAsString = Convert.ToBase64String((Byte[])converter.ConvertTo(loadedPicture, typeof(Byte[])));
             }
+        }
+
+        private void btnValidate_Click(object sender, EventArgs e)
+        {
+            if (loadedPicture == null)
+            {
+                imageAsString = handToEdit.Image;
+            }
+            serialization.deletePosition();
+            serialization.serialize(handToEdit, handToEdit.Name);
         }
     }
 }

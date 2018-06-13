@@ -46,6 +46,8 @@ namespace fingers_cloner
         string description;
         Bitmap loadedPicture;
         string imageAsString;
+
+        List<MyHand> allPositions;
         #endregion
 
         /// <summary>
@@ -111,29 +113,36 @@ namespace fingers_cloner
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            name = tbxModeleName.Text;
-
-            // Open a new form to add a description
-            frmComment comment = new frmComment();
-            comment.ShowDialog();
-
-            // when click on 'OK' on the comment form
-            if (comment.DialogResult == DialogResult.OK)
+            if (!checkName())
             {
-                // add description and name to position to save
-                description = comment.Description;
-                currentPosition.Description = description;
-                currentPosition.Name = name;
-                if (loadedPicture != null)
+                name = tbxModeleName.Text;
+
+                // Open a new form to add a description
+                frmComment comment = new frmComment();
+                comment.ShowDialog();
+
+                // when click on 'OK' on the comment form
+                if (comment.DialogResult == DialogResult.OK)
                 {
-                    currentPosition.Image = imageAsString;
+                    // add description and name to position to save
+                    description = comment.Description;
+                    currentPosition.Description = description;
+                    currentPosition.Name = name;
+                    if (loadedPicture != null)
+                    {
+                        currentPosition.Image = imageAsString;
+                    }
+
+                    // serialize the savedHand object
+                    serialization.serialize(currentPosition, name);
+
+                    // Close comment and newModele form
+                    this.Close();
                 }
-
-                // serialize the savedHand object
-                serialization.serialize(currentPosition);
-
-                // Close comment and newModele form
-                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Ce nom de position est déjà utilisé.");
             }
         }
 
@@ -144,6 +153,30 @@ namespace fingers_cloner
         {
             MessageBox.Show("Aucune main détectée. Veuillez réessayer.");
             this.Close();
-        }        
+        }
+
+        public void getAllPositions(List<MyHand> allPositions)
+        {
+            this.allPositions = allPositions;
+        }
+
+        private bool checkName()
+        {
+            bool nameTaken = false;
+
+            if (allPositions != null)
+            {
+                for (int i = 0; i < allPositions.Count; i++)
+                {
+                    if (allPositions[i].Name == tbxModeleName.Text)
+                    {
+                        nameTaken = true;
+                        break;
+                    }
+                }
+            }
+
+            return nameTaken;
+        }
     }
 }

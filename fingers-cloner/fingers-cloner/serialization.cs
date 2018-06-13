@@ -17,47 +17,81 @@ namespace fingers_cloner
     {
         #region Intialization
         // serialize file name
-        private string _fileName = "serialized-position.xml";
+        private string _positionName;
+        private string _dirName;
+        private string _filePath;
 
         // store all positions serialized
         List<MyHand> allPositions;
+        List<string> allFilesName;
 
         // Hand to serialize
         private MyHand _handToSerialize;
         internal MyHand HandToSerialize { get => _handToSerialize; set => _handToSerialize = value; }
+        public string PositionName { get => _positionName; set => _positionName = value; }
+        public string DirName { get => _dirName; set => _dirName = value; }
+        public string FilePath { get => _filePath; set => _filePath = value; }
         #endregion
 
-        public Serialization() { }
+        public Serialization()
+        {
+            DirName = "serial";
+
+            Path.GetFileName(DirName);
+        }
 
         public Serialization(MyHand handToSerialize)
         {
             this.HandToSerialize = handToSerialize;
+            DirName = "serial";
         }
 
-        public void serialize(MyHand Hand)
+        public void serialize(MyHand Hand, string name)
         {
-            allPositions = deserialize();
-            allPositions.Add(Hand);
+            PositionName = name;
+            FilePath = DirName + "/" + PositionName + ".xml";
 
-            XmlSerializer serializer = new XmlSerializer(typeof(List<MyHand>));
-            StreamWriter file = new StreamWriter(_fileName);
-            serializer.Serialize(file, allPositions);
-            file.Close();
+            XmlSerializer serializer = new XmlSerializer(typeof(MyHand));
+            StreamWriter file = new StreamWriter(FilePath);
+            serializer.Serialize(file, Hand);
+            file.Close(); 
         }
 
         public List<MyHand> deserialize()
         {
             allPositions = new List<MyHand>();
-
-            if (File.Exists(_fileName))
+            allFilesName = getFileName();
+            
+            if (Directory.Exists(DirName))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<MyHand>));
-                StreamReader file = new StreamReader(_fileName);
-                allPositions = (List<MyHand>)serializer.Deserialize(file);
-                file.Close();
+                XmlSerializer serializer = new XmlSerializer(typeof(MyHand));
+                foreach (string position in allFilesName)
+                {
+                    FileStream stream = new FileStream(position, FileMode.Open);
+                    allPositions.Add((MyHand)serializer.Deserialize(stream));
+                    stream.Close();
+                }                
             }
 
             return allPositions;
+        }
+
+        public List<string> getFileName()
+        {
+            allFilesName = new List<string>();
+            
+            foreach (string fileName in Directory.GetFiles(DirName))
+            {
+                allFilesName.Add(fileName);
+            }
+
+            return allFilesName;
+        }
+
+        public void deletePosition(string posName) {
+            FilePath = DirName + "/" + posName + ".xml";
+
+            File.Delete(FilePath);
         }
     }
 }

@@ -93,6 +93,7 @@
             this.btnValidate.TabIndex = 6;
             this.btnValidate.Text = "Valider";
             this.btnValidate.UseVisualStyleBackColor = true;
+            this.btnValidate.Click += new System.EventHandler(this.btnValidate_Click);
             // 
             // lblFileName
             // 
