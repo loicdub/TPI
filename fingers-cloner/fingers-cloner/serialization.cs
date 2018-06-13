@@ -16,39 +16,43 @@ namespace fingers_cloner
     public class Serialization
     {
         #region Intialization
-        // serialize file name
+        // serialize file, directory name and file path
         private string _positionName;
         private string _dirName;
         private string _filePath;
 
         // store all positions serialized
         List<MyHand> allPositions;
+
+        // store all the files name
         List<string> allFilesName;
 
-        // Hand to serialize
+        // hand to serialize
         private MyHand _handToSerialize;
         internal MyHand HandToSerialize { get => _handToSerialize; set => _handToSerialize = value; }
         public string PositionName { get => _positionName; set => _positionName = value; }
+        // directory name and file path
         public string DirName { get => _dirName; set => _dirName = value; }
         public string FilePath { get => _filePath; set => _filePath = value; }
         #endregion
 
+        /// <summary>
+        /// default constructor - initialize directory name
+        /// </summary>
         public Serialization()
         {
             DirName = "serial";
 
             Path.GetFileName(DirName);
         }
-
-        public Serialization(MyHand handToSerialize)
+        
+        /// <summary>
+        /// serialize a given MyHand object
+        /// </summary>
+        /// <param name="Hand">the hand to serialize</param>
+        public void serialize(MyHand Hand)
         {
-            this.HandToSerialize = handToSerialize;
-            DirName = "serial";
-        }
-
-        public void serialize(MyHand Hand, string name)
-        {
-            PositionName = name;
+            PositionName = Hand.Name;
             FilePath = DirName + "/" + PositionName + ".xml";
 
             XmlSerializer serializer = new XmlSerializer(typeof(MyHand));
@@ -57,10 +61,14 @@ namespace fingers_cloner
             file.Close(); 
         }
 
+        /// <summary>
+        /// deserialize all xml files in serial directory
+        /// </summary>
+        /// <returns>a list of all the serialize hands</returns>
         public List<MyHand> deserialize()
         {
             allPositions = new List<MyHand>();
-            allFilesName = getFileName();
+            allFilesName = getFilesName();
             
             if (Directory.Exists(DirName))
             {
@@ -76,7 +84,11 @@ namespace fingers_cloner
             return allPositions;
         }
 
-        public List<string> getFileName()
+        /// <summary>
+        /// get all the files name in the serial directory
+        /// </summary>
+        /// <returns>a list of all the names of the positions</returns>
+        public List<string> getFilesName()
         {
             allFilesName = new List<string>();
             
@@ -88,6 +100,10 @@ namespace fingers_cloner
             return allFilesName;
         }
 
+        /// <summary>
+        /// delete a saved position
+        /// </summary>
+        /// <param name="posName">the name of the position to delete</param>
         public void deletePosition(string posName) {
             FilePath = DirName + "/" + posName + ".xml";
 

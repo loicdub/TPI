@@ -50,6 +50,10 @@ namespace fingers_cloner
         public frmMain()
         {
             InitializeComponent();
+
+            // create the serial folder if not exist to store saved positions
+            Directory.CreateDirectory("serial");
+
             DoubleBuffered = true;
 
             leapController = new LeapController();
@@ -224,6 +228,7 @@ namespace fingers_cloner
             {
                 lblName.Text = "Aucun modèle";
                 lblDescription.Text = "Aucun modèle n'est chargé. Créez-en ou sélectionnez-en un !";
+                pbxModele.Image = Properties.Resources.no_image_available;
             }
 
             lblName.Visible = true;

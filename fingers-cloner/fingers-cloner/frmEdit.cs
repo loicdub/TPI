@@ -13,7 +13,10 @@ namespace fingers_cloner
     public partial class frmEdit : Form
     {
         #region initialization
-        // name, description and picture of the model
+        // name and picture of the model
+        string nameHandToEdit;
+        string imageHandToEdit;
+        // the hand to edit and the updated picture
         MyHand handToEdit;
         Bitmap loadedPicture;
         string imageAsString;
@@ -21,15 +24,30 @@ namespace fingers_cloner
         // Initialize serialization functions
         Serialization serialization;
         #endregion
+
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="modelHand">the position to edit</param>
         public frmEdit(MyHand modelHand)
         {
             InitializeComponent();
+
             handToEdit = modelHand;
+            nameHandToEdit = modelHand.Name;
+            imageHandToEdit = modelHand.Image;
+
+            serialization = new Serialization();
             
-            tbxName.Text = handToEdit.Name;
-            tbxDescription.Text = handToEdit.Description;
+            tbxName.Text = modelHand.Name;
+            tbxDescription.Text = modelHand.Description;
         }
 
+        /// <summary>
+        /// validation is possible only if the textbox of the name isn't empty
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbxName_TextChanged(object sender, EventArgs e)
         {
             if (tbxName.Text.Length <= 0)
@@ -42,6 +60,11 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// validation is possible only if the textbox of the description isn't empty
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbxDescription_TextChanged(object sender, EventArgs e)
         {
             if (tbxDescription.Text.Length <= 0)
@@ -54,6 +77,11 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// let the user chose a picture
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -71,14 +99,26 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// edit the hand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnValidate_Click(object sender, EventArgs e)
         {
+            handToEdit.Name = tbxName.Text;
+            handToEdit.Description = tbxDescription.Text;
             if (loadedPicture == null)
             {
-                imageAsString = handToEdit.Image;
+                imageAsString = imageHandToEdit;
             }
-            serialization.deletePosition();
-            serialization.serialize(handToEdit, handToEdit.Name);
+            else
+            {
+                handToEdit.Image = imageAsString;
+            }
+
+            serialization.deletePosition(nameHandToEdit);
+            serialization.serialize(handToEdit);
         }
     }
 }

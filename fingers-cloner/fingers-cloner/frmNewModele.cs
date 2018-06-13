@@ -88,6 +88,10 @@ namespace fingers_cloner
             {
                 btnSave.Enabled = false;
             }
+            else if (checkName())
+            {
+                btnSave.Enabled = false;
+            }
             else
             {
                 btnSave.Enabled = true;
@@ -113,36 +117,29 @@ namespace fingers_cloner
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!checkName())
+            name = tbxModeleName.Text;
+
+            // Open a new form to add a description
+            frmComment comment = new frmComment();
+            comment.ShowDialog();
+
+            // when click on 'OK' on the comment form
+            if (comment.DialogResult == DialogResult.OK)
             {
-                name = tbxModeleName.Text;
-
-                // Open a new form to add a description
-                frmComment comment = new frmComment();
-                comment.ShowDialog();
-
-                // when click on 'OK' on the comment form
-                if (comment.DialogResult == DialogResult.OK)
+                // add description and name to position to save
+                description = comment.Description;
+                currentPosition.Description = description;
+                currentPosition.Name = name;
+                if (loadedPicture != null)
                 {
-                    // add description and name to position to save
-                    description = comment.Description;
-                    currentPosition.Description = description;
-                    currentPosition.Name = name;
-                    if (loadedPicture != null)
-                    {
-                        currentPosition.Image = imageAsString;
-                    }
-
-                    // serialize the savedHand object
-                    serialization.serialize(currentPosition, name);
-
-                    // Close comment and newModele form
-                    this.Close();
+                    currentPosition.Image = imageAsString;
                 }
-            }
-            else
-            {
-                MessageBox.Show("Ce nom de position est déjà utilisé.");
+
+                // serialize the savedHand object
+                serialization.serialize(currentPosition);
+
+                // Close comment and newModele form
+                this.Close();
             }
         }
 
