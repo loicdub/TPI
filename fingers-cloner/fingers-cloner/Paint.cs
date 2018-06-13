@@ -49,7 +49,14 @@ namespace fingers_cloner
         /// </summary>
         /// <param name="panelWidth">Panel width</param>
         /// <param name="panelHeight">Panel height</param>
-        public Paint(int panelWidth, int panelHeight)
+        public Paint() { }
+
+        /// <summary>
+        /// get the panel size
+        /// </summary>
+        /// <param name="panelWidth">Panel width</param>
+        /// <param name="panelHeight">Panel height</param>
+        public void GetPanelSize(int panelWidth, int panelHeight)
         {
             this.PanelWidth = panelWidth;
             this.PanelHeight = panelHeight;

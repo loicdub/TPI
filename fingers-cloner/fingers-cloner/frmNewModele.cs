@@ -59,7 +59,8 @@ namespace fingers_cloner
             DoubleBuffered = true;
 
             leapController = new LeapController();
-            paint = new Paint(pnlModele.Width, pnlModele.Height);
+            paint = new Paint();
+            paint.GetPanelSize(pnlModele.Width, pnlModele.Height);
             serialization = new Serialization();
 
             this.currentPosition = handToSave;

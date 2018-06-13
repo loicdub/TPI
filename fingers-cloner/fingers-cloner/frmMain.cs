@@ -53,9 +53,10 @@ namespace fingers_cloner
             DoubleBuffered = true;
 
             leapController = new LeapController();
-            paint = new Paint(pnlUserHand.Width, pnlUserHand.Height);
 
             savedPositions = new Serialization();
+            paint = new Paint();
+            paint.GetPanelSize(pnlUserHand.Width, pnlUserHand.Height);
 
             updateCombobox();
 
@@ -66,7 +67,6 @@ namespace fingers_cloner
         private void timer1_Tick(object sender, EventArgs e)
         {
             userHand = leapController.UserHand;
-
             pnlUserHand.Invalidate();
         }
 
@@ -82,6 +82,8 @@ namespace fingers_cloner
                     comparePosition();
                     userFingersColor = colorIndicator();
                     paint.paintHandColor(e, userHand, userFingersColor);
+                    //pnlUserHand.BackColor = panelColor(userFingersColor);
+                    ControlPaint.DrawBorder(e.Graphics, this.pnlUserHand.ClientRectangle, panelColor(userFingersColor), ButtonBorderStyle.Solid);
                 }
                 else
                 {
@@ -134,6 +136,12 @@ namespace fingers_cloner
         {
             lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
             precision = trackBar1.Value;
+        }
+
+        private void frmMain_SizeChanged(object sender, EventArgs e)
+        {
+            paint.GetPanelSize(pnlUserHand.Width, pnlUserHand.Height);
+            pnlModelHand.Invalidate();
         }
 
         #region edition
@@ -261,6 +269,54 @@ namespace fingers_cloner
             }
 
             return color;
+        }
+
+        private Color panelColor(List<Color> fingersColor)
+        {
+            Color panelColor = new Color();
+            int totalColorValue = 0;
+            int averageColorValue;
+
+            for (int i = 0; i < fingersColor.Count; i++)
+            {
+                if (fingersColor[i] == Color.Green)
+                {
+                    totalColorValue += 3;
+                }
+                else if (fingersColor[i] == Color.Orange)
+                {
+                    totalColorValue += 2;
+                }
+                else if (fingersColor[i] == Color.Red)
+                {
+                    totalColorValue += 1;
+                }
+                else
+                {
+                    totalColorValue += 0;
+                }
+            }
+
+            averageColorValue = totalColorValue / 5;
+
+            if (averageColorValue == 3)
+            {
+                panelColor = Color.Green;
+            }
+            else if (averageColorValue >= 2)
+            {
+                panelColor = Color.Orange;
+            }
+            else if (averageColorValue >= 1)
+            {
+                panelColor = Color.Red;
+            }
+            else if (averageColorValue == 0)
+            {
+                panelColor = Color.Black;
+            }
+
+            return panelColor;
         }
 
         private System.Drawing.Image stringToImage(string stringImage)

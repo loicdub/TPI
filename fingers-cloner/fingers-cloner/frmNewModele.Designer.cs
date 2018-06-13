@@ -106,6 +106,9 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tbxModeleName);
             this.Controls.Add(this.pnlModele);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmNewModele";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
