@@ -3,7 +3,7 @@
  * Class   : I.FA-P3B
  * School  : CFPT-I
  * Date    : June 2018
- * Descr.  : Create a new modele, with a name and a description
+ * Descr.  : Create a new modele, with a name, a description and a picture
  * Version : 1.0 
  * Ext. dll: LeapCSharp.NET4.5
  */
@@ -41,7 +41,7 @@ namespace fingers_cloner
         // Initialize serialization functions
         Serialization serialization;
 
-        // name, description and picture of the model
+        // name, description and picture of the modele
         string name;
         string description;
         Bitmap loadedPicture;
@@ -68,7 +68,11 @@ namespace fingers_cloner
             this.currentPosition = handToSave;
         }
 
-        // draw hand if there is one
+        /// <summary>
+        ///  draw hand if there is one
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlModele_Paint(object sender, PaintEventArgs e)
         {
             try
@@ -81,7 +85,11 @@ namespace fingers_cloner
             }
         }
 
-        // enable save button if there is a name to it
+        /// <summary>
+        /// enable save button if there is a name to it and if the name is not already taken
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbxModeleName_TextChanged(object sender, EventArgs e)
         {
             if (tbxModeleName.Text.Length <= 0)
@@ -98,6 +106,11 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// open file dialog to choose image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLoadImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -115,6 +128,11 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// modify position to save and serialize it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             name = tbxModeleName.Text;
@@ -152,11 +170,19 @@ namespace fingers_cloner
             this.Close();
         }
 
+        /// <summary>
+        /// get all saved positions
+        /// </summary>
+        /// <param name="allPositions">saved positions</param>
         public void getAllPositions(List<MyHand> allPositions)
         {
             this.allPositions = allPositions;
         }
 
+        /// <summary>
+        /// check if the name is already taken
+        /// </summary>
+        /// <returns></returns>
         private bool checkName()
         {
             bool nameTaken = false;

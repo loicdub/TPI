@@ -3,7 +3,7 @@
  * Class   : I.FA-P3B
  * School  : CFPT-I
  * Date    : June 2018
- * Descr.  : Drawing circle and line functions
+ * Descr.  : Drawing hand, circle and line functions
  * Version : 1.0 
  * Ext. dll: LeapCSharp.NET4.5
  */
@@ -204,9 +204,9 @@ namespace fingers_cloner
         }
 
         /// <summary>
-        /// Calculate panel position of the model hand
+        /// Calculate panel position of the modele hand
         /// </summary>
-        /// <param name="modele">the current model</param>
+        /// <param name="modele">the current modele</param>
         /// <returns>A list of positions</returns>
         public List<Vector> normToPalmPanelModelePos(MyHand modele)
         {

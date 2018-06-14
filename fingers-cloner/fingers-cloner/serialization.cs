@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * Author  : Dubas Loïc
+ * Class   : I.FA-P3B
+ * School  : CFPT-I
+ * Date    : June 2018
+ * Descr.  : serialize and deserialize functions and delete save position
+ * Version : 1.0 
+ * Ext. dll: LeapCSharp.NET4.5
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +26,7 @@ namespace fingers_cloner
     public class Serialization
     {
         #region Intialization
-        // serialize file, directory name and file path
+        // serialize file name, directory name and file path
         private string _positionName;
         private string _dirName;
         private string _filePath;

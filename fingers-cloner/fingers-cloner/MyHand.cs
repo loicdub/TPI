@@ -28,10 +28,15 @@ namespace fingers_cloner
         private List<Vector> _fingersNormPos;
         private string _image;
         // set
+        // name
         public string Name { get => _name; set => _name = value; }
+        // description
         public string Description { get => _description; set => _description = value; }
+        // normalized position of the palm
         public Vector PalmNormPos { get => _palmNormPos; set => _palmNormPos = value; }
+        // normalized positions of the fingers
         public List<Vector> FingersNormPos { get => _fingersNormPos; set => _fingersNormPos = value; }
+        // image of the position as a string
         public string Image { get => _image; set => _image = value; }
         #endregion
 
@@ -44,7 +49,7 @@ namespace fingers_cloner
         /// MyHand constructor
         /// </summary>
         /// <param name="palmPosNorm">Normalized position of the palm</param>
-        /// <param name="fingersPosNorm">List of normalized position of the fingers</param>
+        /// <param name="fingersPosNorm">Normalized positions of the fingers</param>
         public MyHand(Vector palmPosNorm, List<Vector> fingersPosNorm)
         {
             this.PalmNormPos = palmPosNorm;
@@ -57,7 +62,7 @@ namespace fingers_cloner
         /// <param name="name">Name of the position</param>
         /// <param name="description">Description of the position</param>
         /// <param name="palmPosNorm">Normalized position of the palm</param>
-        /// <param name="fingersPosNorm">List of normalized position of the fingers</param>
+        /// <param name="fingersPosNorm">Normalized positions of the fingers</param>
         public MyHand(string name, string description, Vector palmPosNorm, List<Vector> fingersPosNorm)
         {
             this.Name = name;
@@ -72,8 +77,8 @@ namespace fingers_cloner
         /// <param name="name">Name of the position</param>
         /// <param name="description">Description of the position</param>
         /// <param name="palmPosNorm">Normalized position of the palm</param>
-        /// <param name="fingersPosNorm">List of normalized position of the fingers</param>
-        /// <param name="image">Image of the position</param>
+        /// <param name="fingersPosNorm">Normalized positions of the fingers</param>
+        /// <param name="image">Image of the position as a string</param>
         public MyHand(string name, string description, Vector palmPosNorm, List<Vector> fingersPosNorm, string image)
         {
             this.Name = name;

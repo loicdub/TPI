@@ -13,7 +13,7 @@ namespace fingers_cloner
     public partial class frmEdit : Form
     {
         #region initialization
-        // name and picture of the model
+        // name and picture of the modele
         string nameHandToEdit;
         string imageHandToEdit;
         // the hand to edit and the updated picture
@@ -78,7 +78,7 @@ namespace fingers_cloner
         }
 
         /// <summary>
-        /// let the user chose a picture
+        /// open file dialog choose a picture and transform it in string
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

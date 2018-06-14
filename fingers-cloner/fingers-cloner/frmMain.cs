@@ -3,7 +3,7 @@
  * Class   : I.FA-P3B
  * School  : CFPT-I
  * Date    : June 2018
- * Descr.  : show user's hand and model's hand (coming soon)
+ * Descr.  : show user's hand and modele's hand
  * Version : 1.0 
  * Ext. dll: LeapCSharp.NET4.5
  */
@@ -47,6 +47,9 @@ namespace fingers_cloner
         List<MyHand> allPositions;
         #endregion
 
+        /// <summary>
+        /// defult constructor
+        /// </summary>
         public frmMain()
         {
             InitializeComponent();
@@ -56,32 +59,44 @@ namespace fingers_cloner
 
             DoubleBuffered = true;
 
+            // initialize the leap controller
             leapController = new LeapController();
 
+            // initialize serialization class
             savedPositions = new Serialization();
+            // initialize paint class
             paint = new Paint();
+            // send panel dimensions to paint class
             paint.GetPanelSize(pnlUserHand.Width, pnlUserHand.Height);
 
             updateCombobox();
             updateModele();
 
+            // get value of trackbar
             precision = trackBar1.Value;
         }
 
-        // Refresh panel on each tick
+        /// <summary>
+        /// Refresh panel on each tick
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             userHand = leapController.UserHand;
             pnlUserHand.Invalidate();
         }
 
-        // Draw a circle to each finger and palm center on their location
-        // Draw a line between the circle representing the palm and the ones for the fingers
+        /// <summary>
+        /// Draw the user's hand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlUserHand_Paint(object sender, PaintEventArgs e)
         {
             try
             {
-                // if combobox isn't empty, compare current model with user's hand
+                // if combobox isn't empty, compare current modele with user's hand
                 if (cbxModele.Items.Count > 0)
                 {
                     comparePosition();
@@ -105,9 +120,14 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// draw modele's hand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlModelHand_Paint(object sender, PaintEventArgs e)
         {
-            // if combobox isn't empty, show selected model's description and position
+            // if combobox isn't empty, show selected modele's description and position
             if (cbxModele.Items.Count > 0)
             {
                 paint.paintHand(e, modeleHand);
@@ -121,7 +141,11 @@ namespace fingers_cloner
             updateModele();
         }
 
-        // Open a new form to create a new modele
+        /// <summary>
+        /// Open a new form to create a new modele
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNewModel_Click(object sender, EventArgs e)
         {
             frmNewModele newModele = new frmNewModele(userHand);
@@ -135,13 +159,22 @@ namespace fingers_cloner
             }
         }
 
-        // Choose the precision required to accept a position
+        /// <summary>
+        /// Choose the precision required to accept a position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             lblPercentage.Text = Convert.ToString(trackBar1.Value) + "%";
             precision = trackBar1.Value;
         }
 
+        /// <summary>
+        /// send to paint class new dimensions of window and refresh panel of modele
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmMain_SizeChanged(object sender, EventArgs e)
         {
             paint.GetPanelSize(pnlUserHand.Width, pnlUserHand.Height);
@@ -149,6 +182,11 @@ namespace fingers_cloner
         }
 
         #region edition
+        /// <summary>
+        /// open edit window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEdit_Click(object sender, EventArgs e)
         {
             frmEdit edit = new frmEdit(modeleHand);
@@ -161,6 +199,11 @@ namespace fingers_cloner
             }
         }
 
+        /// <summary>
+        /// delete current modele
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult delete = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la position " + modeleHand.Name + " ?", "Supprimer une position", MessageBoxButtons.YesNo);
@@ -209,10 +252,13 @@ namespace fingers_cloner
         /// </summary>
         private void updateModele()
         {
+            // set modele's hand to the selected modele
             modeleHand = (MyHand)cbxModele.SelectedItem;
 
+            // if there is modele hand saved
             if (modeleHand != null)
             {
+                // show name, description and picture
                 lblName.Text = modeleHand.Name;
                 lblDescription.Text = modeleHand.Description;
                 if (modeleHand.Image != null)
@@ -238,7 +284,7 @@ namespace fingers_cloner
         }
 
         /// <summary>
-        /// Calculate distance between each fingers of user's and model's hand
+        /// Calculate distance between each fingers of user's and modele's hand
         /// </summary>
         /// <returns>A list of distances between each fingers</returns>
         private List<double> comparePosition()
@@ -259,7 +305,7 @@ namespace fingers_cloner
         }
 
         /// <summary>
-        /// List of color for each fingers to show how close user's hand is to model
+        /// List of color for each fingers to show how close user's hand is to modele
         /// </summary>
         /// <returns>List of the colors</returns>
         private List<Color> colorIndicator()
@@ -290,6 +336,11 @@ namespace fingers_cloner
             return color;
         }
 
+        /// <summary>
+        /// set the panel border's color depending on average of user's fingers position
+        /// </summary>
+        /// <param name="fingersColor"></param>
+        /// <returns></returns>
         private Color panelColor(List<Color> fingersColor)
         {
             Color panelColor = new Color();
@@ -338,6 +389,11 @@ namespace fingers_cloner
             return panelColor;
         }
 
+        /// <summary>
+        /// transform a text as an image
+        /// </summary>
+        /// <param name="stringImage"></param>
+        /// <returns></returns>
         private System.Drawing.Image stringToImage(string stringImage)
         {
             System.Drawing.Image image;
