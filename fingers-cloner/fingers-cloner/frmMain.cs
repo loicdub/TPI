@@ -311,7 +311,7 @@ namespace fingers_cloner
         private List<Color> colorIndicator()
         {
             List<Color> color = new List<Color>();
-            int tolerance = 100 - this.precision;
+            int tolerance = (pnlUserHand.Width / 4) - this.precision;
 
             for (int i = 0; i < fingersDist.Count; i++)
             {
